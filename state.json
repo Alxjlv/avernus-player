@@ -3,7 +3,7 @@
   "map": "avernus-alexandrian",
   "fog": true,
   "party": "h3",
-  "updated": "2026-09-21T07:00:56.512Z",
+  "updated": "2026-09-22T06:10:35.127Z",
   "hexes": {
     "h3": {
       "status": "V",
@@ -14,12 +14,12 @@
       "name": "Fort knucklebones"
     },
     "h2": {
-      "status": "K",
-      "name": "Bel's forge"
+      "status": "R",
+      "name": "Bel's Forge?"
     },
     "g2": {
-      "status": "K",
-      "name": "Haruman's hill"
+      "status": "R",
+      "name": "Haruman's Hill?"
     }
   }
 }
