@@ -1,0 +1,5 @@
+header { display: flex; gap: 12px; align-items: center; justify-content: space-between; padding: 8px 16px; background: rgba(18, 13, 6, .85); color: #eadfc2; font-size: 14px; }
+header button { font: inherit; padding: 4px 12px; cursor: pointer; }
+#msg { padding: 24px; text-align: center; color: #eadfc2; }
+.legend span { margin-right: 12px; }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; border: 2px solid; }

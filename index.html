@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avernus map</title>
+    <link rel="stylesheet" href="shared/hexmap.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="shared/favicon.ico">
+</head>
+<body>
+    <header>
+        <span class="legend"><span><i style="border-color:var(--known)"></i>Known</span><span id="lg-r" hidden><i style="border-color:var(--rumour);border-style:dotted"></i>Rumour</span><span><i style="border-color:var(--explored)"></i>Visited</span><span id="lg-e" hidden><i style="border-color:var(--explored)"></i>Explored &#10003;</span></span>
+        <span><span id="updated"></span> <button id="reload">Refresh</button></span>
+    </header>
+    <div id="msg">Loading…</div>
+    <div class="mapwrap" id="map"></div>
+    <script src="shared/hexmap.js"></script>
+    <script src="player.js"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+:root { --known: #b8842f; --explored: #4f6272; --rumour: #8a6fb0; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: "Open Sans", sans-serif; color: #1a1208; background: #d9c9a3 url("background.jpg") center / cover; }
+.mapwrap { max-width: 1300px; margin: 0 auto; }
+svg.hexmap { display: block; width: 100%; height: auto; }
+.hex { fill: transparent; stroke: none; }
+.hex.hoverable { cursor: pointer; }
+.hex.hoverable:hover { fill: rgba(255, 240, 150, .35); stroke: #fff3a0; stroke-width: 2; }
+.hex.s-K { fill: rgba(184, 132, 47, .25); stroke: var(--known); stroke-width: 3; }
+.hex.s-V, .hex.s-E { fill: rgba(79, 98, 114, .12); stroke: var(--explored); stroke-width: 3; }   /* Visited and Explored differ only by the tick */
+.hex.s-R { fill: rgba(138, 111, 176, .08); stroke: var(--rumour); stroke-width: 3; stroke-dasharray: 3 7; stroke-linecap: round; }
+.hex-label.s-R { font-style: italic; fill: #efe6ff; }
+.check { fill: #fff; stroke: #000; stroke-width: 3px; paint-order: stroke; font-weight: 700; font-family: sans-serif; }
+.hex-label { fill: #fff; stroke: #000; stroke-width: 3px; paint-order: stroke; font-weight: 700; stroke-linejoin: round; }
+.fog-hex { fill: #120d06; fill-opacity: .8; }
+.party-dot { fill: #2b6fd6; stroke: #fff; stroke-width: 2; }
+.party-ring { fill: none; stroke: #2b6fd6; stroke-width: 2; opacity: .6; }
+.hex.selected { stroke: #2b6fd6; stroke-width: 4; fill: rgba(43, 111, 214, .12); }
+.badge { stroke: #fff; stroke-width: 1.2; }
+.badge-B { fill: #2b6fd6; }   /* base book */
+.badge-R { fill: #7a4bb3; }   /* Alexandrian Remix original */
+.badge-D { fill: #c0392b; }   /* DMs Guild */
+.badge-E { fill: #1e8a5a; }   /* Eventyr */
+.badge-t { fill: #fff; font-weight: 700; font-family: sans-serif; }
+.badge-M { fill: #3a2a12; }   /* has battlemaps */
+.pin { cursor: pointer; }
+.pin-bg { fill: #3a2a12; stroke: #e8c25a; stroke-width: 2.5; }
+.pin-tent { fill: #e8c25a; }
+.pin.s-K .pin-bg { stroke: var(--known); } .pin.s-V .pin-bg, .pin.s-E .pin-bg { stroke: var(--explored); } .pin.s-R .pin-bg { stroke: var(--rumour); stroke-dasharray: 3 5; }
+.pin.selected .pin-bg { stroke: #2b6fd6; stroke-width: 4; }
+.pin .hex-label { text-anchor: start; }
+.train-icon circle { fill: #3a2a12; stroke: #e8c25a; stroke-width: 2; }
+.train-icon text { fill: #fff; }

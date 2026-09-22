@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "map": "avernus-alexandrian",
+  "fog": true,
+  "party": "h3",
+  "updated": "2026-09-21T07:00:56.512Z",
+  "hexes": {
+    "h3": {
+      "status": "V",
+      "name": "Dock of fallen cities / Elturel"
+    },
+    "i4": {
+      "status": "K",
+      "name": "Fort knucklebones"
+    },
+    "h2": {
+      "status": "K",
+      "name": "Bel's forge"
+    },
+    "g2": {
+      "status": "K",
+      "name": "Haruman's hill"
+    }
+  }
+}
