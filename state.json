@@ -3,7 +3,7 @@
   "map": "avernus-alexandrian",
   "fog": true,
   "party": "h3",
-  "updated": "2026-09-25T04:26:43.477Z",
+  "updated": "2026-09-25T04:48:12.934Z",
   "hexes": {
     "h3": {
       "status": "V",
@@ -19,7 +19,7 @@
     },
     "g2": {
       "status": "R",
-      "name": "Haruman's Hill?"
+      "name": "Haruman's Hill??"
     }
   }
 }
