@@ -14,12 +14,17 @@
     }
 
     // name is 'state.json' or 'dm-state.json'; the latter sits next to the former.
+    // The GitHub API is unauthenticated (60 requests an hour per network, then 403); when it refuses, use the copy the site serves itself.
     async function loadJson(name) {
         const gh = (await config()).github;
-        const res = gh
-            ? await fetch(`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${(gh.path || 'player/state.json').replace(/[^/]*$/, name)}?ref=${gh.branch || 'main'}`,
-                { headers: { Accept: 'application/vnd.github.raw+json' }, cache: 'no-store' })
-            : await fetch(name + '?t=' + Date.now(), { cache: 'no-store' });
+        if (gh) {
+            try {
+                const res = await fetch(`https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${(gh.path || 'player/state.json').replace(/[^/]*$/, name)}?ref=${gh.branch || 'main'}`,
+                    { headers: { Accept: 'application/vnd.github.raw+json' }, cache: 'no-store' });
+                if (res.ok) return res.json();
+            } catch (e) { /* fall through to the site copy */ }
+        }
+        const res = await fetch(name + '?t=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error(name + ' request failed: ' + res.status);
         return res.json();
     }
