@@ -10,10 +10,14 @@
 </head>
 <body>
     <header>
-        <span class="legend"><span><i style="border-color:var(--known)"></i>Known</span><span id="lg-r" hidden><i style="border-color:var(--rumour);border-style:dotted"></i>Rumour</span><span><i style="border-color:var(--explored)"></i>Visited</span><span id="lg-e" hidden><i style="border-color:var(--explored)"></i>Explored &#10003;</span></span>
-        <span><span id="updated"></span> <button id="reload">Refresh</button></span>
+        <div id="clockchips" class="chips"></div>
+        <span class="legend legend-wide"><span><i style="border-color:var(--known)"></i>Known</span><span class="lg-r" hidden><i style="border-color:var(--rumour);border-style:dotted"></i>Rumour</span><span><i style="border-color:var(--explored)"></i>Visited</span><span class="lg-e" hidden><i style="border-color:var(--explored)"></i>Explored &#10003;</span></span>
+        <span class="hdr-right"><span class="updated"></span> <button id="reload" aria-label="Refresh"><span class="rl">Refresh</span><span class="ri">&#8635;</span></button> <button id="menubtn" class="empty" aria-expanded="false" aria-controls="menu" aria-label="Menu">&#9776;</button></span>
     </header>
-    <div id="clockbar" hidden></div>
+    <div id="menu" hidden>
+        <div id="menudetail"></div>
+        <section class="menu-narrow"><h3>Map key</h3><span class="legend "><span><i style="border-color:var(--known)"></i>Known</span><span class="lg-r" hidden><i style="border-color:var(--rumour);border-style:dotted"></i>Rumour</span><span><i style="border-color:var(--explored)"></i>Visited</span><span class="lg-e" hidden><i style="border-color:var(--explored)"></i>Explored &#10003;</span></span><p class="updated"></p></section>
+    </div>
     <div id="msg">Loading…</div>
     <div class="mapwrap" id="map"></div>
     <script src="shared/hexmap.js"></script>

@@ -27,24 +27,36 @@
     const loadPublic = async () => { try { return (await loadJson('dm-state.json')).public || null; } catch (e) { return null; } };   // optional: absent until the DM view has saved once
 
     // Optional travel clock: only what the DM chose to publish (day and watch, hours since rest, weather, the Elturel estimate).
+    // The chips sit in the header bar; the detail (Elturel window, weather rule, what we have done) lives in the menu panel.
+    const esc = t => String(t).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+    const menu = document.getElementById('menu'), menuBtn = document.getElementById('menubtn'), chipsEl = document.getElementById('clockchips');
+    function setMenu(open) { menu.hidden = !open; menuBtn.setAttribute('aria-expanded', String(open)); }
+    menuBtn.addEventListener('click', e => { e.stopPropagation(); setMenu(menu.hidden); });
+    chipsEl.addEventListener('click', e => { if (e.target.closest('[data-menu]')) { e.stopPropagation(); setMenu(true); } });
+    document.addEventListener('click', e => { if (!menu.hidden && !menu.contains(e.target)) setMenu(false); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+
     function renderClock(pub) {
-        const bar = document.getElementById('clockbar'), log = pub && pub.log, c = (pub && pub.clock) || {};
-        if (!(pub && pub.clock) && !(log && log.length)) { bar.hidden = true; return; }
-        const esc = t => String(t).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
-        let h = '<div class="chips">';
-        if (c.day != null) h += '<span class="chip">Day ' + c.day + (c.watch ? ', watch ' + c.watch + ' of 6' : '') + '</span>';
-        if (c.rest != null) h += '<span class="chip' + (c.rest >= 16 ? ' warn' : '') + '">' + c.rest + ' h since long rest</span>';
-        if (c.weather) h += '<span class="chip' + (c.weather.name ? ' warn' : '') + '">' + esc(c.weather.name || 'No oppressive weather') + '</span>' + (c.weather.clear ? '<span class="chip">Clear day</span>' : '');
-        h += '</div>';
-        if (c.weather && c.weather.name && c.weather.rule) h += '<p class="note"><b>' + esc(c.weather.name) + '.</b> ' + esc(c.weather.rule) + '</p>';
-        if (c.estimate) {
-            const e = c.estimate, lo = e.given + e.lo, hi = e.given + e.hi, max = hi + 10, pc = x => Math.max(0, Math.min(100, 100 * x / max));
-            h += '<p class="note"><b>Elturel.</b> On day ' + e.given + ' you were told it had ' + e.lo + ' to ' + e.hi + ' days. Now: about ' + Math.max(0, lo - e.day) + ' to ' + Math.max(0, hi - e.day) + ' days.</p>' +
-                '<div class="win" role="img" aria-label="Time left before Elturel is submerged"><i style="left:' + pc(lo) + '%;width:' + (pc(hi) - pc(lo)) + '%"></i><b style="left:' + pc(e.day) + '%"></b></div><div class="scale"><span>day 0</span><span>day ' + lo + '</span><span>day ' + hi + '</span></div>';
+        const log = (pub && pub.log) || [], c = (pub && pub.clock) || {}, w = c.weather, e = c.estimate;
+        const chip = (txt, warn) => '<span class="chip' + (warn ? ' warn' : '') + '">' + txt + '</span>';
+        let chips = '', det = '';
+        if (c.day != null) chips += chip('Day ' + c.day + (c.watch ? ' · Watch ' + c.watch + '/6' : ''));
+        if (e) {   // the countdown sits next to the day so it stays visible on a narrow screen
+            var lo = e.given + e.lo, hi = e.given + e.hi, left = Math.max(0, lo - e.day), right = Math.max(0, hi - e.day);
+            chips += '<button type="button" class="chip' + (left <= 7 ? ' warn' : '') + '" data-menu aria-label="Elturel countdown, open details">Elturel ' + left + '–' + right + ' days</button>';
         }
-        if (log && log.length) h += '<details class="done"><summary>What we have done (' + log.length + ')</summary><ul>' + log.map(r => '<li><b>Session ' + esc(r.s) + ', ' + esc(r.where) + ':</b> ' + esc(r.text) + '</li>').join('') + '</ul></details>';
-        bar.innerHTML = h;
-        bar.hidden = false;
+        if (w) chips += chip(esc(w.name || 'No oppressive weather'), !!w.name) + (w.clear ? chip('Clear day') : '');
+        if (c.rest != null) chips += chip(c.rest + 'h since rest', c.rest >= 16);
+        if (w && w.name && w.rule) det += '<section><h3>' + esc(w.name) + '</h3><p>' + esc(w.rule) + '</p></section>';
+        if (e) {
+            const max = hi + 10, pc = x => Math.max(0, Math.min(100, 100 * x / max));
+            det += '<section><h3>Elturel</h3><p>On day ' + e.given + ' you were told it had ' + e.lo + ' to ' + e.hi + ' days. Now: about ' + left + ' to ' + right + ' days.</p>' +
+                '<div class="win" role="img" aria-label="Time left before Elturel is submerged"><i style="left:' + pc(lo) + '%;width:' + (pc(hi) - pc(lo)) + '%"></i><b style="left:' + pc(e.day) + '%"></b></div><div class="scale"><span>day 0</span><span>day ' + lo + '</span><span>day ' + hi + '</span></div></section>';
+        }
+        if (log.length) det += '<section><h3>What we have done (' + log.length + ')</h3><ul>' + log.map(r => '<li><b>Session ' + esc(r.s) + ', ' + esc(r.where) + ':</b> ' + esc(r.text) + '</li>').join('') + '</ul></section>';
+        chipsEl.innerHTML = chips;
+        document.getElementById('menudetail').innerHTML = det;
+        menuBtn.classList.toggle('empty', !det);   // wide screens only need the menu when there is detail to show
     }
 
     async function refresh() {
@@ -59,9 +71,10 @@
                 cell: id => state.hexes[id],
                 labelSize: map.labelSize || 12
             });
-            document.getElementById('lg-r').hidden = !Object.values(state.hexes).some(h => h.status === 'R');
-            document.getElementById('lg-e').hidden = !Object.values(state.hexes).some(h => h.status === 'E');
-            document.getElementById('updated').textContent = state.updated ? 'Updated ' + new Date(state.updated).toLocaleString() : '';
+            const hasR = Object.values(state.hexes).some(h => h.status === 'R'), hasE = Object.values(state.hexes).some(h => h.status === 'E');
+            document.querySelectorAll('.lg-r').forEach(el => { el.hidden = !hasR; });
+            document.querySelectorAll('.lg-e').forEach(el => { el.hidden = !hasE; });
+            document.querySelectorAll('.updated').forEach(el => { el.textContent = state.updated ? 'Updated ' + new Date(state.updated).toLocaleString() : ''; });
         } catch (e) {
             msg.style.display = '';
             msg.textContent = 'Could not load the map (' + e.message + '). Try refreshing.';
@@ -69,5 +82,6 @@
     }
 
     document.getElementById('reload').addEventListener('click', refresh);
+    if (location.hash === '#menu') setMenu(true);
     refresh();
 })();
