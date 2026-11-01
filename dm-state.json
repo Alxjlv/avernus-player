@@ -1,7 +1,7 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T07:58:12.056Z",
+  "updated": "2026-11-01T08:04:43.277Z",
   "dm": {
     "log": {
       "i4/redcap-gate": {
@@ -19,7 +19,7 @@
       "lo": 30,
       "hi": 60,
       "real": "99",
-      "cond": "heat",
+      "cond": "acid",
       "clear": false,
       "comps": {
         "pist": {
@@ -90,8 +90,8 @@
       "watch": 4,
       "rest": 0,
       "weather": {
-        "name": "Extreme Heat",
-        "rule": "Con save at the end of each hour or +1 exhaustion. DC 5 the first hour, +1 per extra hour. Disadvantage in medium or heavy armour.",
+        "name": "Acid Rain",
+        "rule": "Unsheltered creatures take 1d6 acid damage per hour.",
         "clear": false
       }
     }
