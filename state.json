@@ -3,7 +3,7 @@
   "map": "avernus-alexandrian",
   "fog": true,
   "party": "h3",
-  "updated": "2026-09-25T04:48:39.231Z",
+  "updated": "2026-11-01T03:11:36.583Z",
   "hexes": {
     "h3": {
       "status": "V",
@@ -11,7 +11,7 @@
     },
     "i4": {
       "status": "K",
-      "name": "Fort knucklebones"
+      "name": "?"
     },
     "h2": {
       "status": "R",
