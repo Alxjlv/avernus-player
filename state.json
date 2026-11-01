@@ -3,14 +3,14 @@
   "map": "avernus-alexandrian",
   "fog": true,
   "party": "h3",
-  "updated": "2026-11-01T03:11:40.984Z",
+  "updated": "2026-11-01T08:10:39.771Z",
   "hexes": {
     "h3": {
       "status": "V",
       "name": "Dock of fallen cities / Elturel"
     },
     "i4": {
-      "status": "K",
+      "status": "V",
       "name": "Fort knucklebones"
     },
     "h2": {
