@@ -3,3 +3,16 @@ header button { font: inherit; padding: 4px 12px; cursor: pointer; }
 #msg { padding: 24px; text-align: center; color: #eadfc2; }
 .legend span { margin-right: 12px; }
 .legend i { display: inline-block; width: 10px; height: 10px; margin-right: 4px; border: 2px solid; }
+
+#clockbar { padding: 8px 16px; background: rgba(18, 13, 6, .8); color: #eadfc2; font-size: 14px; }
+#clockbar .chips { display: flex; gap: 8px; flex-wrap: wrap; }
+#clockbar .chip { border: 1px solid #6b5a3a; border-radius: 12px; padding: 1px 10px; white-space: nowrap; }
+#clockbar .chip.warn { border-color: #d9783a; color: #f0a070; }
+#clockbar .note { margin: 6px 0 0; max-width: 70ch; }
+#clockbar .win { position: relative; height: 12px; background: #4a3b25; border-radius: 6px; margin: 8px 0 2px; overflow: hidden; max-width: 560px; }
+#clockbar .win i { position: absolute; top: 0; bottom: 0; background: #d9783a; opacity: .85; }
+#clockbar .win b { position: absolute; top: -2px; bottom: -2px; width: 3px; background: #eadfc2; }
+#clockbar .scale { display: flex; justify-content: space-between; max-width: 560px; font-size: 11px; opacity: .8; font-variant-numeric: tabular-nums; }
+#clockbar details.done { margin-top: 8px; max-width: 70ch; }
+#clockbar details.done summary { cursor: pointer; }
+#clockbar details.done ul { margin: 4px 0 0; padding-left: 18px; }
