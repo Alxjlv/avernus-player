@@ -1,7 +1,7 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T07:54:48.838Z",
+  "updated": "2026-11-01T07:58:12.056Z",
   "dm": {
     "log": {
       "i4/redcap-gate": {
@@ -12,9 +12,9 @@
     "wl": {},
     "travel": {
       "day": 44,
-      "hour": 4,
+      "hour": 12,
       "linkRest": true,
-      "rest": 19,
+      "rest": 0,
       "given": 44,
       "lo": 30,
       "hi": 60,
@@ -43,7 +43,9 @@
       "gw": 0,
       "coins": 0,
       "rations": 0,
-      "log": [],
+      "log": [
+        "Long rest taken on day 44."
+      ],
       "used": {},
       "balloon": {
         "fuel": 0,
@@ -85,8 +87,8 @@
   "public": {
     "clock": {
       "day": 44,
-      "watch": 2,
-      "rest": 19,
+      "watch": 4,
+      "rest": 0,
       "weather": {
         "name": "Extreme Heat",
         "rule": "Con save at the end of each hour or +1 exhaustion. DC 5 the first hour, +1 per extra hour. Disadvantage in medium or heavy armour.",
