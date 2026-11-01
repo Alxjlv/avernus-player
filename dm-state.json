@@ -1,15 +1,15 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T04:00:37.037Z",
+  "updated": "2026-11-01T04:10:25.354Z",
   "dm": {
     "log": {},
     "wl": {},
     "travel": {
       "day": 44,
-      "hour": 0,
+      "hour": 1,
       "linkRest": true,
-      "rest": 0,
+      "rest": 16,
       "given": 44,
       "lo": 30,
       "hi": 60,
@@ -62,7 +62,7 @@
     "clock": {
       "day": 44,
       "watch": 1,
-      "rest": 0,
+      "rest": 16,
       "weather": {
         "name": "Extreme Heat",
         "rule": "Con save at the end of each hour or +1 exhaustion. DC 5 the first hour, +1 per extra hour. Disadvantage in medium or heavy armour.",
