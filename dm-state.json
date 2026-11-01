@@ -1,7 +1,7 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T03:34:10.555Z",
+  "updated": "2026-11-01T03:35:15.009Z",
   "dm": {
     "log": {},
     "wl": {},
@@ -52,7 +52,7 @@
   "flags": {
     "showExplored": false,
     "share": {
-      "est": true,
+      "est": false,
       "weather": true,
       "rest": true,
       "days": true
@@ -67,12 +67,6 @@
         "name": null,
         "rule": null,
         "clear": false
-      },
-      "estimate": {
-        "day": 14,
-        "given": 14,
-        "lo": 30,
-        "hi": 60
       }
     }
   }
