@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "map": "avernus-alexandrian",
+  "updated": "2026-11-01T03:02:08.630Z",
+  "dm": {
+    "log": {},
+    "wl": {},
+    "travel": {
+      "day": 14,
+      "hour": 0,
+      "linkRest": true,
+      "rest": 0,
+      "given": 14,
+      "lo": 30,
+      "hi": 60,
+      "real": "",
+      "cond": "none",
+      "clear": false,
+      "comps": {
+        "pist": {
+          "st": "unknown",
+          "locs": {}
+        },
+        "heart": {
+          "st": "unknown",
+          "locs": {}
+        },
+        "cog": {
+          "st": "unknown",
+          "locs": {}
+        },
+        "sand": {
+          "st": "unknown",
+          "locs": {}
+        }
+      },
+      "rum": {},
+      "gw": 0,
+      "coins": 0,
+      "rations": 0,
+      "log": [],
+      "used": {}
+    }
+  },
+  "hexes": {
+    "explored": [],
+    "rumours": {
+      "h2": "Bel's Forge?",
+      "g2": "Haruman's Hill?"
+    }
+  },
+  "flags": {
+    "showExplored": false,
+    "share": {
+      "est": true,
+      "weather": true,
+      "rest": true,
+      "days": true
+    }
+  },
+  "public": {
+    "clock": {
+      "day": 14,
+      "watch": 1,
+      "rest": 0,
+      "weather": {
+        "name": null,
+        "rule": null,
+        "clear": false
+      },
+      "estimate": {
+        "day": 14,
+        "given": 14,
+        "lo": 30,
+        "hi": 60
+      }
+    }
+  }
+}
