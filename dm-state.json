@@ -1,7 +1,7 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T03:12:10.219Z",
+  "updated": "2026-11-01T03:13:19.722Z",
   "dm": {
     "log": {},
     "wl": {},
@@ -52,11 +52,28 @@
   "flags": {
     "showExplored": false,
     "share": {
-      "est": false,
-      "weather": false,
-      "rest": false,
-      "days": false
+      "est": true,
+      "weather": true,
+      "rest": true,
+      "days": true
     }
   },
-  "public": {}
+  "public": {
+    "clock": {
+      "day": 14,
+      "watch": 1,
+      "rest": 0,
+      "weather": {
+        "name": null,
+        "rule": null,
+        "clear": false
+      },
+      "estimate": {
+        "day": 14,
+        "given": 14,
+        "lo": 30,
+        "hi": 60
+      }
+    }
+  }
 }
