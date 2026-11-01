@@ -59,18 +59,72 @@
         menuBtn.classList.toggle('empty', !det);   // wide screens only need the menu when there is detail to show
     }
 
+    // Narrow screens: #mapview scrolls on its own under the fixed header. The map is drawn at a readable size (not squeezed to the
+    // screen width), opens centred on the party, and can be zoomed with the buttons or by pinching. Wide screens are left as before.
+    const mapview = document.getElementById('mapview'), narrow = window.matchMedia('(max-width: 800px)');
+    const ZMAX = 2.5, ZSTART = 0.9;   // px per map unit; the map is 1292 units wide
+    let zoom = null, curMap = null, centred = false;
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    const minZoom = () => curMap ? mapview.clientWidth / curMap.canvas.width : 0.3;
+    const mapSvg = () => document.querySelector('#map svg');
+    function partyPoint(party) {
+        const pp = party && /^[a-z]\d+$/.test(party) ? HexMaps.parseHex(party) : null;
+        return pp ? HexMaps.center(curMap, pp.col, pp.row) : { x: curMap.canvas.width / 2, y: curMap.canvas.height / 2 };
+    }
+    function sizeMap() {   // set the svg width for the current zoom (or clear it on a wide screen)
+        const svg = mapSvg();
+        if (!svg) return;
+        svg.style.width = narrow.matches && curMap ? curMap.canvas.width * zoom + 'px' : '';
+    }
+    function scrollToPoint(pt) {   // put a map point in the middle of the viewport
+        mapview.scrollLeft = pt.x * zoom - mapview.clientWidth / 2;
+        mapview.scrollTop = pt.y * zoom - mapview.clientHeight / 2;
+    }
+    function setZoom(z, focus) {   // keep the map point under `focus` ({x, y} in map units, default the view centre) where it is
+        if (!narrow.matches || !curMap) return;
+        const f = focus || { x: (mapview.scrollLeft + mapview.clientWidth / 2) / zoom, y: (mapview.scrollTop + mapview.clientHeight / 2) / zoom };
+        const dx = focus ? focus.cx : mapview.clientWidth / 2, dy = focus ? focus.cy : mapview.clientHeight / 2;   // where on screen it sits
+        zoom = clamp(z, minZoom(), ZMAX);
+        sizeMap();
+        mapview.scrollLeft = f.x * zoom - dx;
+        mapview.scrollTop = f.y * zoom - dy;
+    }
+    document.getElementById('zin').addEventListener('click', () => setZoom(zoom * 1.35));
+    document.getElementById('zout').addEventListener('click', () => setZoom(zoom / 1.35));
+    document.getElementById('zparty').addEventListener('click', () => { if (curMap && narrow.matches) scrollToPoint(partyPoint(lastParty)); });
+    window.addEventListener('resize', () => { if (curMap) { if (narrow.matches) zoom = clamp(zoom == null ? ZSTART : zoom, minZoom(), ZMAX); sizeMap(); } });
+    let pinch = null;   // two-finger pinch zoom, about the midpoint between the fingers
+    const dist = t => Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+    mapview.addEventListener('touchstart', e => { if (e.touches.length === 2 && narrow.matches && curMap) pinch = { d: dist(e.touches), z: zoom }; }, { passive: true });
+    mapview.addEventListener('touchmove', e => {
+        if (!pinch || e.touches.length !== 2) return;
+        e.preventDefault();
+        const r = mapview.getBoundingClientRect(), cx = (e.touches[0].clientX + e.touches[1].clientX) / 2 - r.left, cy = (e.touches[0].clientY + e.touches[1].clientY) / 2 - r.top;
+        setZoom(pinch.z * dist(e.touches) / pinch.d, { x: (mapview.scrollLeft + cx) / zoom, y: (mapview.scrollTop + cy) / zoom, cx, cy });
+    }, { passive: false });
+    mapview.addEventListener('touchend', e => { if (e.touches.length < 2) pinch = null; }, { passive: true });
+    let lastParty = null;
+
     async function refresh() {
         try {
             const [state, pub] = await Promise.all([loadState(), loadPublic()]);
             const map = await HexMaps.load(state.map, 'maps/');   // publish-player-site.sh rewrites this to 'maps/' for the flattened (custom-domain) copy
             msg.style.display = 'none';
             renderClock(pub);
+            const sl = mapview.scrollLeft, st = mapview.scrollTop;
+            curMap = map; lastParty = state.party;
+            if (zoom == null) zoom = clamp(ZSTART, minZoom(), ZMAX);
             HexMaps.render(mapEl, map, {
                 fog: state.fog !== false,
                 party: state.party,
                 cell: id => state.hexes[id],
                 labelSize: map.labelSize || 12
             });
+            sizeMap();
+            if (narrow.matches) {
+                if (!centred) { scrollToPoint(partyPoint(state.party)); centred = true; }   // first draw opens on the party
+                else { mapview.scrollLeft = sl; mapview.scrollTop = st; }                     // Refresh keeps where you were looking
+            }
             const hasR = Object.values(state.hexes).some(h => h.status === 'R'), hasE = Object.values(state.hexes).some(h => h.status === 'E');
             document.querySelectorAll('.lg-r').forEach(el => { el.hidden = !hasR; });
             document.querySelectorAll('.lg-e').forEach(el => { el.hidden = !hasE; });

@@ -50,3 +50,16 @@ button.chip:hover { background: rgba(234, 223, 194, .12); }
     #reload .ri { display: inline; font-size: 17px; line-height: 1.1; }
 }
 .legend [hidden] { display: none !important; }
+
+/* Narrow screens: the header stays put and the map becomes its own pannable, zoomable viewport (see player.js), centred on the party. */
+#mapctl { display: none; }
+@media (max-width: 800px) {
+    html, body { height: 100%; }
+    body { height: 100vh; height: 100dvh; display: flex; flex-direction: column; overflow: hidden; }
+    #mapview { flex: 1; min-height: 0; overflow: auto; overscroll-behavior: contain; touch-action: pan-x pan-y; -webkit-overflow-scrolling: touch; }
+    #mapview .mapwrap { max-width: none; margin: 0; width: max-content; }
+    #mapview svg.hexmap { max-width: none; }
+    #msg { flex: none; }
+    #mapctl { display: flex; flex-direction: column; gap: 6px; position: fixed; right: 10px; bottom: 14px; z-index: 2; }
+    #mapctl button { width: 40px; height: 40px; font-size: 20px; line-height: 1; border: 1px solid #6b5a3a; border-radius: 8px; background: rgba(18, 13, 6, .88); color: #eadfc2; cursor: pointer; }
+}
