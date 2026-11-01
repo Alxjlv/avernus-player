@@ -1,9 +1,14 @@
 {
   "version": 1,
   "map": "avernus-alexandrian",
-  "updated": "2026-11-01T05:25:24.914Z",
+  "updated": "2026-11-01T07:23:54.204Z",
   "dm": {
-    "log": {},
+    "log": {
+      "i4/redcap-gate": {
+        "s": 61,
+        "l": "Balloon landed against guard tower"
+      }
+    },
     "wl": {},
     "travel": {
       "day": 44,
@@ -58,7 +63,8 @@
         "claim": false,
         "spark": false
       }
-    }
+    },
+    "lastSession": 61
   },
   "hexes": {
     "explored": [],
